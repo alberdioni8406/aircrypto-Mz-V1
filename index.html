@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0a0e14">
+  <meta name="description" content="AirCrypto MZ — Carregue airtime e serviços digitais com Bitcoin Cash">
+  <title>AirCrypto MZ — Airtime com Bitcoin Cash</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/app.css">
+  <link rel="manifest" href="/manifest.json">
+</head>
+<body>
+  <header>
+    <div class="logo">
+      Air<span>Crypto</span>
+      <small>Moçambique</small>
+    </div>
+    <div class="network-badge" id="networkBadge">🟢 LIVE</div>
+  </header>
+
+  <div class="container">
+    <div class="steps">
+      <div class="step-dot active" id="dot1"></div>
+      <div class="step-dot" id="dot2"></div>
+      <div class="step-dot" id="dot3"></div>
+    </div>
+    <div class="step-label" id="stepLabel">O que quer?</div>
+
+    <!-- ═══════════ SCREEN 1: SERVICE ═══════════ -->
+    <div class="screen active" id="screen1">
+      <div class="card">
+        <div class="card-label">O que quer?</div>
+        <div class="service-grid">
+          <button type="button" class="service-btn selected" data-service="airtime" onclick="selectService(this)">
+            <span class="svc-icon">📱</span>
+            <span class="svc-name">Airtime</span>
+          </button>
+          <button type="button" class="service-btn" data-service="data" onclick="selectService(this)" disabled title="Em breve">
+            <span class="svc-icon">📶</span>
+            <span class="svc-name">Dados</span>
+            <span class="svc-soon">Em breve</span>
+          </button>
+          <button type="button" class="service-btn" data-service="tv" onclick="selectService(this)" disabled title="Em breve">
+            <span class="svc-icon">📺</span>
+            <span class="svc-name">TV</span>
+            <span class="svc-soon">Em breve</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="card" id="providerCard">
+        <div class="card-label">Operadora</div>
+        <div class="operators" id="operators">
+          <button type="button" class="op-btn selected" data-op="Vodacom" onclick="selectOp(this)">
+            <span class="op-icon">🔴</span>
+            <div class="op-name">Vodacom</div>
+            <div class="op-prefix">84 / 85</div>
+          </button>
+          <button type="button" class="op-btn" data-op="Movitel" onclick="selectOp(this)">
+            <span class="op-icon">🟢</span>
+            <div class="op-name">Movitel</div>
+            <div class="op-prefix">86 / 87</div>
+          </button>
+          <button type="button" class="op-btn" data-op="Tmcel" onclick="selectOp(this)">
+            <span class="op-icon">🔵</span>
+            <div class="op-name">Tmcel</div>
+            <div class="op-prefix">82 / 83</div>
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="input-group">
+          <label for="phoneInput">Número de telemóvel</label>
+          <div class="input-wrap">
+            <div class="input-prefix">+258</div>
+            <input type="tel" id="phoneInput" placeholder="84 123 4567" maxlength="9" inputmode="numeric"
+              autocomplete="tel" oninput="onPhoneInput(this)">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-label">Valor (MZN)</div>
+        <div class="presets">
+          <button type="button" class="preset-btn" onclick="selectAmount(50, this)">50</button>
+          <button type="button" class="preset-btn selected" onclick="selectAmount(100, this)">100</button>
+          <button type="button" class="preset-btn" onclick="selectAmount(200, this)">200</button>
+          <button type="button" class="preset-btn" onclick="selectAmount(500, this)">500</button>
+        </div>
+        <div class="input-group">
+          <div class="input-wrap">
+            <div class="input-prefix">MZN</div>
+            <input type="number" id="amountInput" placeholder="outro valor" min="10" max="5000" inputmode="numeric"
+              oninput="onAmountInput(this)">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-label">Pagar com</div>
+        <div class="crypto-list" id="cryptoList">
+          <!-- filled by JS from backend config; BCH first & emphasized -->
+        </div>
+        <p class="bch-hint">🟢 Bitcoin Cash é o método recomendado</p>
+      </div>
+
+      <button type="button" class="btn btn-primary" id="nextBtn" onclick="goToPayment()" disabled>
+        Continuar →
+      </button>
+
+      <p class="disclaimer">
+        AirCrypto é um revendedor independente de serviços digitais.
+        Nomes e marcas pertencem aos respectivos proprietários.
+        AirCrypto não é afiliado nem endossado por Vodacom, Movitel, Tmcel, GOtv, DStv ou ZAP.
+      </p>
+    </div>
+
+    <!-- ═══════════ SCREEN 2: PAYMENT ═══════════ -->
+    <div class="screen" id="screen2">
+      <div class="card">
+        <div class="card-label">Resumo</div>
+        <div class="summary-row"><span class="label">Serviço</span><span class="value" id="s-service">—</span></div>
+        <div class="summary-row"><span class="label">Operadora</span><span class="value" id="s-op">—</span></div>
+        <div class="summary-row"><span class="label">Número</span><span class="value" id="s-phone">—</span></div>
+        <div class="summary-row"><span class="label">Valor</span><span class="value highlight" id="s-amount">—</span></div>
+        <div class="summary-row"><span class="label">Total a pagar</span><span class="value" id="s-total">—</span></div>
+        <div class="summary-row"><span class="label">Cripto</span><span class="value crypto" id="s-crypto">—</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-label">Enviar pagamento</div>
+        <div class="payment-box">
+          <div class="qr-wrap" id="qrContainer">
+            <div class="qr-placeholder">A gerar QR…</div>
+          </div>
+          <div class="crypto-amount" id="payAmount">—</div>
+          <div class="crypto-sub" id="payCoin">Bitcoin Cash (BCH)</div>
+          <div class="address-box" id="payAddress" onclick="copyAddress()" title="Toque para copiar">
+            —
+          </div>
+          <div class="address-hint">Toque para copiar o endereço</div>
+        </div>
+
+        <div class="polling-row" id="pollingRow">
+          <div class="spinner"></div>
+          <span>A aguardar pagamento na blockchain…</span>
+        </div>
+        <div class="timer-row">
+          ⏳ Expira em <span class="timer-value" id="timerDisplay">—</span>
+        </div>
+      </div>
+
+      <button type="button" class="btn btn-ghost" id="simBtn" style="display:none" onclick="simulatePayment()">
+        ⚙️ Simular pagamento (dev)
+      </button>
+      <button type="button" class="btn btn-ghost" onclick="goBack()">← Voltar</button>
+    </div>
+
+    <!-- ═══════════ SCREEN 3: SUCCESS ═══════════ -->
+    <div class="screen" id="screen3">
+      <div class="card status-card">
+        <div class="status-icon" id="statusIcon">✅</div>
+        <div class="status-title" id="statusTitle">Serviço entregue</div>
+        <div class="status-sub" id="statusSub">—</div>
+
+        <div class="receipt">
+          <div class="summary-row"><span class="label">Serviço</span><span class="value" id="r-service">—</span></div>
+          <div class="summary-row"><span class="label">Número</span><span class="value" id="r-phone">—</span></div>
+          <div class="summary-row"><span class="label">Valor</span><span class="value highlight" id="r-amount">—</span></div>
+          <div class="summary-row"><span class="label">Pago com</span><span class="value crypto" id="r-crypto">—</span></div>
+          <div class="summary-row">
+            <span class="label">Referência</span>
+            <span class="value ref" id="r-ref" onclick="copyRef()">—</span>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="btn btn-success" onclick="resetAll()">+ Novo pedido</button>
+      <p class="disclaimer">Guarde a referência. Não é necessário criar conta.</p>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">Copiado!</div>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>
