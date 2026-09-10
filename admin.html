@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AirCrypto Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg:#0a0e14; --surface:#111720; --border:#1e2d45; --accent:#00e5a0; --text:#e8edf5; --muted:#6b7a99; --danger:#ff4d4d; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:var(--bg); color:var(--text); font-family:'Syne',sans-serif; padding:20px; max-width:960px; margin:0 auto; }
+    h1 { font-size:1.4rem; margin-bottom:4px; }
+    h1 span { color:var(--accent); }
+    .sub { color:var(--muted); font-family:'Space Mono',monospace; font-size:0.7rem; margin-bottom:20px; }
+    .card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:16px; margin-bottom:14px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:10px; }
+    .stat { text-align:center; }
+    .stat .n { font-size:1.5rem; font-family:'Space Mono',monospace; color:var(--accent); }
+    .stat .l { font-size:0.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:1px; }
+    table { width:100%; border-collapse:collapse; font-size:0.78rem; font-family:'Space Mono',monospace; }
+    th,td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); }
+    th { color:var(--muted); font-weight:400; font-size:0.65rem; text-transform:uppercase; }
+    input,button { font-family:inherit; }
+    input { background:var(--bg); border:1px solid var(--border); color:var(--text); padding:10px 12px; border-radius:8px; width:100%; margin-bottom:10px; }
+    button { background:var(--accent); color:#0a0e14; border:none; padding:10px 16px; border-radius:8px; font-weight:700; cursor:pointer; }
+    .badge { display:inline-block; padding:2px 8px; border-radius:10px; font-size:0.65rem; }
+    .live { background:rgba(0,229,160,0.15); color:var(--accent); }
+    .off { background:rgba(255,77,77,0.15); color:var(--danger); }
+    .man { background:rgba(247,147,26,0.15); color:#f7931a; }
+    .login { max-width:320px; margin:80px auto; }
+    .err { color:var(--danger); font-size:0.8rem; margin-top:8px; }
+  </style>
+</head>
+<body>
+  <div id="login" class="login card">
+    <h1>Air<span>Crypto</span> Admin</h1>
+    <p class="sub">Enter admin token</p>
+    <input type="password" id="token" placeholder="ADMIN_TOKEN" />
+    <button onclick="login()">Enter</button>
+    <p class="err" id="loginErr"></p>
+  </div>
+
+  <div id="app" style="display:none">
+    <h1>Air<span>Crypto</span> Admin</h1>
+    <p class="sub" id="subtitle">Today</p>
+
+    <div class="card">
+      <div class="grid" id="stats"></div>
+    </div>
+
+    <div class="card">
+      <h3 style="font-size:0.85rem;margin-bottom:10px">Providers</h3>
+      <div id="providers"></div>
+    </div>
+
+    <div class="card">
+      <h3 style="font-size:0.85rem;margin-bottom:10px">Balances</h3>
+      <pre id="balances" style="font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--muted);white-space:pre-wrap"></pre>
+    </div>
+
+    <div class="card">
+      <h3 style="font-size:0.85rem;margin-bottom:10px">Orders</h3>
+      <input type="search" id="search" placeholder="Search by reference…" oninput="loadOrders()" />
+      <div style="overflow-x:auto">
+        <table>
+          <thead>
+            <tr>
+              <th>Ref</th><th>Date</th><th>Service</th><th>Customer</th>
+              <th>Amount</th><th>Crypto</th><th>Pay</th><th>Fulfill</th><th>Margin</th>
+            </tr>
+          </thead>
+          <tbody id="ordersBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let token = localStorage.getItem('ac_admin_token') || '';
+
+    async function api(path) {
+      const res = await fetch(path, { headers: { 'x-admin-token': token } });
+      if (res.status === 401) throw new Error('Unauthorized');
+      return res.json();
+    }
+
+    async function login() {
+      token = document.getElementById('token').value.trim();
+      try {
+        await api('/api/admin/dashboard');
+        localStorage.setItem('ac_admin_token', token);
+        document.getElementById('login').style.display = 'none';
+        document.getElementById('app').style.display = 'block';
+        refresh();
+      } catch {
+        document.getElementById('loginErr').textContent = 'Invalid token';
+      }
+    }
+
+    async function refresh() {
+      const d = await api('/api/admin/dashboard');
+      const t = d.today;
+      document.getElementById('stats').innerHTML = `
+        <div class="stat"><div class="n">${t.orders}</div><div class="l">Orders</div></div>
+        <div class="stat"><div class="n">${t.completed}</div><div class="l">Completed</div></div>
+        <div class="stat"><div class="n">${t.pending}</div><div class="l">Pending</div></div>
+        <div class="stat"><div class="n">${t.failed}</div><div class="l">Failed</div></div>
+        <div class="stat"><div class="n">${t.sales_mzn}</div><div class="l">Sales MZN</div></div>
+        <div class="stat"><div class="n">${t.gross_margin_mzn}</div><div class="l">Margin MZN</div></div>
+      `;
+      document.getElementById('providers').innerHTML = d.providers.map(p => {
+        const cls = p.status === 'LIVE' ? 'live' : p.status === 'MANUAL' ? 'man' : 'off';
+        return `<div style="margin:4px 0;font-size:0.8rem">${p.name} <span class="badge ${cls}">${p.status}</span> <span style="color:var(--muted);font-size:0.7rem">${p.integration}</span></div>`;
+      }).join('');
+      document.getElementById('balances').textContent = JSON.stringify(d.balances, null, 2);
+      await loadOrders();
+    }
+
+    async function loadOrders() {
+      const q = document.getElementById('search').value.trim();
+      const data = await api('/api/admin/orders' + (q ? `?q=${encodeURIComponent(q)}` : ''));
+      document.getElementById('ordersBody').innerHTML = data.orders.map(o => `
+        <tr>
+          <td>${o.order_reference}</td>
+          <td>${(o.created_at||'').slice(0,16)}</td>
+          <td>${o.provider} ${o.service_type}</td>
+          <td>${o.customer_identifier}</td>
+          <td>${o.total_price} MZN</td>
+          <td>${o.crypto_currency}</td>
+          <td>${o.payment_status}</td>
+          <td>${o.fulfillment_status}</td>
+          <td>${o.aircrypto_margin ?? '—'}</td>
+        </tr>
+      `).join('') || '<tr><td colspan="9">No orders</td></tr>';
+    }
+
+    if (token) {
+      login().catch(() => {});
+    }
+  </script>
+</body>
+</html>
