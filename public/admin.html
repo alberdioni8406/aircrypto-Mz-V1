@@ -88,8 +88,9 @@
         },
       });
       if (res.status === 401) throw new Error('Unauthorized');
-      if (!res.ok) throw new Error('Request failed');
-      return res.json();
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.detail || data.error || ('HTTP ' + res.status));
+      return data;
     }
 
     async function tryLogin(candidate) {
@@ -110,7 +111,9 @@
       } catch (e) {
         localStorage.removeItem('ac_admin_token');
         document.getElementById('loginErr').textContent =
-          'Invalid token — check Vercel ADMIN_TOKEN and that you redeployed after setting it';
+          (e && e.message === 'Unauthorized')
+            ? 'Invalid token — check Vercel ADMIN_TOKEN and redeploy'
+            : ('Login failed: ' + (e && e.message ? e.message : 'unknown error'));
         return false;
       }
     }
