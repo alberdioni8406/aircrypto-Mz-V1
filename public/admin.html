@@ -29,20 +29,22 @@
     .man { background:rgba(247,147,26,0.15); color:#f7931a; }
     .login { max-width:320px; margin:80px auto; }
     .err { color:var(--danger); font-size:0.8rem; margin-top:8px; }
+    .hint { color:var(--muted); font-size:0.65rem; margin-top:10px; line-height:1.4; font-family:'Space Mono',monospace; }
   </style>
 </head>
 <body>
   <div id="login" class="login card">
     <h1>Air<span>Crypto</span> Admin</h1>
     <p class="sub">Enter admin token</p>
-    <input type="password" id="token" placeholder="ADMIN_TOKEN" />
-    <button onclick="login()">Enter</button>
+    <input type="password" id="tokenInput" placeholder="Paste ADMIN_TOKEN value" autocomplete="current-password" />
+    <button type="button" id="enterBtn">Enter</button>
     <p class="err" id="loginErr"></p>
+    <p class="hint">Use the same value you set in Vercel → Environment Variables → ADMIN_TOKEN. After changing it on Vercel, redeploy.</p>
   </div>
 
   <div id="app" style="display:none">
     <h1>Air<span>Crypto</span> Admin</h1>
-    <p class="sub" id="subtitle">Today</p>
+    <p class="sub" id="subtitle">Today · <a href="#" id="logout" style="color:var(--muted)">Log out</a></p>
 
     <div class="card">
       <div class="grid" id="stats"></div>
@@ -76,25 +78,46 @@
   </div>
 
   <script>
-    let token = localStorage.getItem('ac_admin_token') || '';
+    let token = (localStorage.getItem('ac_admin_token') || '').trim();
 
     async function api(path) {
-      const res = await fetch(path, { headers: { 'x-admin-token': token } });
+      const res = await fetch(path, {
+        headers: {
+          'x-admin-token': token,
+          'Authorization': 'Bearer ' + token,
+        },
+      });
       if (res.status === 401) throw new Error('Unauthorized');
+      if (!res.ok) throw new Error('Request failed');
       return res.json();
     }
 
-    async function login() {
-      token = document.getElementById('token').value.trim();
+    async function tryLogin(candidate) {
+      const t = (candidate || '').trim();
+      if (!t) {
+        document.getElementById('loginErr').textContent = 'Paste your ADMIN_TOKEN value';
+        return false;
+      }
+      token = t;
       try {
         await api('/api/admin/dashboard');
         localStorage.setItem('ac_admin_token', token);
         document.getElementById('login').style.display = 'none';
         document.getElementById('app').style.display = 'block';
-        refresh();
-      } catch {
-        document.getElementById('loginErr').textContent = 'Invalid token';
+        document.getElementById('loginErr').textContent = '';
+        await refresh();
+        return true;
+      } catch (e) {
+        localStorage.removeItem('ac_admin_token');
+        document.getElementById('loginErr').textContent =
+          'Invalid token — check Vercel ADMIN_TOKEN and that you redeployed after setting it';
+        return false;
       }
+    }
+
+    async function login() {
+      const fromInput = document.getElementById('tokenInput').value;
+      await tryLogin(fromInput);
     }
 
     async function refresh() {
@@ -108,10 +131,10 @@
         <div class="stat"><div class="n">${t.sales_mzn}</div><div class="l">Sales MZN</div></div>
         <div class="stat"><div class="n">${t.gross_margin_mzn}</div><div class="l">Margin MZN</div></div>
       `;
-      document.getElementById('providers').innerHTML = d.providers.map(p => {
+      document.getElementById('providers').innerHTML = (d.providers || []).map(p => {
         const cls = p.status === 'LIVE' ? 'live' : p.status === 'MANUAL' ? 'man' : 'off';
         return `<div style="margin:4px 0;font-size:0.8rem">${p.name} <span class="badge ${cls}">${p.status}</span> <span style="color:var(--muted);font-size:0.7rem">${p.integration}</span></div>`;
-      }).join('');
+      }).join('') || '<div style="color:var(--muted)">No providers</div>';
       document.getElementById('balances').textContent = JSON.stringify(d.balances, null, 2);
       await loadOrders();
     }
@@ -119,7 +142,7 @@
     async function loadOrders() {
       const q = document.getElementById('search').value.trim();
       const data = await api('/api/admin/orders' + (q ? `?q=${encodeURIComponent(q)}` : ''));
-      document.getElementById('ordersBody').innerHTML = data.orders.map(o => `
+      document.getElementById('ordersBody').innerHTML = (data.orders || []).map(o => `
         <tr>
           <td>${o.order_reference}</td>
           <td>${(o.created_at||'').slice(0,16)}</td>
@@ -134,8 +157,22 @@
       `).join('') || '<tr><td colspan="9">No orders</td></tr>';
     }
 
+    document.getElementById('enterBtn').addEventListener('click', login);
+    document.getElementById('tokenInput').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') login();
+    });
+    document.getElementById('logout').addEventListener('click', (e) => {
+      e.preventDefault();
+      localStorage.removeItem('ac_admin_token');
+      token = '';
+      location.reload();
+    });
+
+    // Auto-login only with stored token (do not wipe it with empty input)
     if (token) {
-      login().catch(() => {});
+      tryLogin(token).then((ok) => {
+        if (!ok) document.getElementById('login').style.display = 'block';
+      });
     }
   </script>
 </body>
