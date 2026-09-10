@@ -35,7 +35,7 @@ const config = {
     defaultMarginPct: parseFloat(process.env.DEFAULT_MARGIN_PCT || '0'),
   },
 
-  adminToken: process.env.ADMIN_TOKEN || 'dev-admin-token-change-me',
+  adminToken: (process.env.ADMIN_TOKEN || 'dev-admin-token-change-me').trim(),
   enabledCryptos: (process.env.ENABLED_CRYPTOS || 'BCH,USDT,BTC,LTC,ETH')
     .split(',')
     .map((c) => c.trim().toUpperCase())
