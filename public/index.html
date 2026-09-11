@@ -2,189 +2,335 @@
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#0a0e14">
-  <meta name="description" content="AirCrypto MZ — Carregue airtime e serviços digitais com Bitcoin Cash">
-  <title>AirCrypto MZ — Airtime com Bitcoin Cash</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1220">
+  <meta name="description" content="AirCrypto — Carregue telemóvel em Moçambique com Bitcoin Cash e crypto. Rápido, simples, sem conta.">
+  <title>AirCrypto — Airtime em Moçambique com Bitcoin Cash</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/app.css">
   <link rel="manifest" href="/manifest.json">
 </head>
 <body>
-  <header>
-    <div class="logo">
-      Air<span>Crypto</span>
-      <small>Moçambique</small>
+  <!-- ─── NAV ─── -->
+  <nav class="nav" id="topNav">
+    <a href="/" class="nav-brand">Air<span>Crypto</span></a>
+    <div class="nav-actions">
+      <a href="#como-funciona" class="nav-link">Como funciona</a>
+      <a href="#comprar" class="btn btn-nav">Comprar carregamento</a>
     </div>
-    <div class="network-badge" id="networkBadge">🟢 LIVE</div>
+  </nav>
+
+  <!-- ─── HERO ─── -->
+  <header class="hero">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <p class="hero-badge">
+        <span class="dot-live"></span>
+        Moçambique · Pague com Bitcoin Cash
+      </p>
+      <h1 class="hero-title">
+        Carregue o telemóvel<br>
+        <span class="hero-accent">em segundos</span>
+      </h1>
+      <p class="hero-sub">
+        Airtime Vodacom, Movitel e Tmcel. Pague com Bitcoin Cash ou outras criptomoedas —
+        sem conta, sem complicação.
+      </p>
+      <div class="hero-ctas">
+        <a href="#comprar" class="btn btn-primary btn-lg">Comprar carregamento</a>
+        <a href="#produtos" class="btn btn-ghost btn-lg">Ver operadoras</a>
+      </div>
+      <div class="hero-trust-row">
+        <span>✓ Entrega digital rápida</span>
+        <span>✓ Sem registo</span>
+        <span>✓ 💚 Bitcoin Cash</span>
+      </div>
+    </div>
   </header>
 
-  <div class="container">
-    <div class="steps">
-      <div class="step-dot active" id="dot1"></div>
-      <div class="step-dot" id="dot2"></div>
-      <div class="step-dot" id="dot3"></div>
+  <!-- ─── OPERATORS STRIP ─── -->
+  <section class="strip" id="produtos" aria-label="Operadoras">
+    <p class="strip-label">Carregamentos para</p>
+    <div class="strip-ops">
+      <div class="strip-op"><span class="op-dot vodacom"></span> Vodacom</div>
+      <div class="strip-op"><span class="op-dot movitel"></span> Movitel</div>
+      <div class="strip-op"><span class="op-dot tmcel"></span> Tmcel</div>
     </div>
-    <div class="step-label" id="stepLabel">O que quer?</div>
+    <p class="strip-note">Revendedor independente · não afiliado às operadoras</p>
+  </section>
 
-    <!-- ═══════════ SCREEN 1: SERVICE ═══════════ -->
-    <div class="screen active" id="screen1">
-      <div class="card">
-        <div class="card-label">O que quer?</div>
-        <div class="service-grid">
-          <button type="button" class="service-btn selected" data-service="airtime" onclick="selectService(this)">
-            <span class="svc-icon">📱</span>
-            <span class="svc-name">Airtime</span>
-          </button>
-          <button type="button" class="service-btn" data-service="data" onclick="selectService(this)" disabled title="Em breve">
-            <span class="svc-icon">📶</span>
-            <span class="svc-name">Dados</span>
-            <span class="svc-soon">Em breve</span>
-          </button>
-          <button type="button" class="service-btn" data-service="tv" onclick="selectService(this)" disabled title="Em breve">
-            <span class="svc-icon">📺</span>
-            <span class="svc-name">TV</span>
-            <span class="svc-soon">Em breve</span>
-          </button>
+  <!-- ─── HOW IT WORKS ─── -->
+  <section class="section" id="como-funciona">
+    <div class="section-inner">
+      <h2 class="section-title">Como funciona</h2>
+      <p class="section-lead">Quatro passos. Sem conta. Sem espera desnecessária.</p>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <h3>Escolha</h3>
+          <p>Operadora e valor do carregamento</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <h3>Número</h3>
+          <p>Indique o telemóvel (+258)</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <h3>Pague</h3>
+          <p>Bitcoin Cash ou outra crypto</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">4</div>
+          <h3>Receba</h3>
+          <p>Airtime creditado automaticamente</p>
         </div>
       </div>
+    </div>
+  </section>
 
-      <div class="card" id="providerCard">
-        <div class="card-label">Operadora</div>
-        <div class="operators" id="operators">
-          <button type="button" class="op-btn selected" data-op="Vodacom" onclick="selectOp(this)">
-            <span class="op-icon">🔴</span>
-            <div class="op-name">Vodacom</div>
-            <div class="op-prefix">84 / 85</div>
-          </button>
-          <button type="button" class="op-btn" data-op="Movitel" onclick="selectOp(this)">
-            <span class="op-icon">🟢</span>
-            <div class="op-name">Movitel</div>
-            <div class="op-prefix">86 / 87</div>
-          </button>
-          <button type="button" class="op-btn" data-op="Tmcel" onclick="selectOp(this)">
-            <span class="op-icon">🔵</span>
-            <div class="op-name">Tmcel</div>
-            <div class="op-prefix">82 / 83</div>
-          </button>
-        </div>
+  <!-- ─── PURCHASE WIDGET ─── -->
+  <section class="section section-buy" id="comprar">
+    <div class="section-inner buy-wrap">
+      <div class="buy-intro">
+        <h2 class="section-title">Comprar carregamento</h2>
+        <p class="section-lead">Escolha operadora, valor e pague. Pronto.</p>
       </div>
 
-      <div class="card">
-        <div class="input-group">
-          <label for="phoneInput">Número de telemóvel</label>
-          <div class="input-wrap">
-            <div class="input-prefix">+258</div>
-            <input type="tel" id="phoneInput" placeholder="84 123 4567" maxlength="9" inputmode="numeric"
-              autocomplete="tel" oninput="onPhoneInput(this)">
+      <div class="buy-panel">
+        <div class="steps-indicator">
+          <div class="step-dot active" id="dot1"></div>
+          <div class="step-dot" id="dot2"></div>
+          <div class="step-dot" id="dot3"></div>
+        </div>
+        <div class="step-label" id="stepLabel">Selecionar serviço</div>
+
+        <!-- SCREEN 1 -->
+        <div class="screen active" id="screen1">
+          <div class="card">
+            <div class="card-label">Operadora</div>
+            <div class="operators" id="operators">
+              <button type="button" class="op-btn selected" data-op="Vodacom" onclick="selectOp(this)">
+                <span class="op-icon">🔴</span>
+                <div class="op-name">Vodacom</div>
+                <div class="op-prefix">84 / 85</div>
+              </button>
+              <button type="button" class="op-btn" data-op="Movitel" onclick="selectOp(this)">
+                <span class="op-icon">🟢</span>
+                <div class="op-name">Movitel</div>
+                <div class="op-prefix">86 / 87</div>
+              </button>
+              <button type="button" class="op-btn" data-op="Tmcel" onclick="selectOp(this)">
+                <span class="op-icon">🔵</span>
+                <div class="op-name">Tmcel</div>
+                <div class="op-prefix">82 / 83</div>
+              </button>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <div class="card">
-        <div class="card-label">Valor (MZN)</div>
-        <div class="presets">
-          <button type="button" class="preset-btn" onclick="selectAmount(50, this)">50</button>
-          <button type="button" class="preset-btn selected" onclick="selectAmount(100, this)">100</button>
-          <button type="button" class="preset-btn" onclick="selectAmount(200, this)">200</button>
-          <button type="button" class="preset-btn" onclick="selectAmount(500, this)">500</button>
-        </div>
-        <div class="input-group">
-          <div class="input-wrap">
-            <div class="input-prefix">MZN</div>
-            <input type="number" id="amountInput" placeholder="outro valor" min="10" max="5000" inputmode="numeric"
-              oninput="onAmountInput(this)">
+          <div class="card">
+            <div class="input-group">
+              <label for="phoneInput">Número de telemóvel</label>
+              <div class="input-wrap">
+                <div class="input-prefix">+258</div>
+                <input type="tel" id="phoneInput" placeholder="84 123 4567" maxlength="9" inputmode="numeric"
+                  autocomplete="tel" oninput="onPhoneInput(this)">
+              </div>
+            </div>
           </div>
+
+          <div class="card">
+            <div class="card-label">Valor (MZN)</div>
+            <div class="presets">
+              <button type="button" class="preset-btn" onclick="selectAmount(50, this)">50</button>
+              <button type="button" class="preset-btn selected" onclick="selectAmount(100, this)">100</button>
+              <button type="button" class="preset-btn" onclick="selectAmount(200, this)">200</button>
+              <button type="button" class="preset-btn" onclick="selectAmount(500, this)">500</button>
+            </div>
+            <div class="input-group">
+              <div class="input-wrap">
+                <div class="input-prefix">MZN</div>
+                <input type="number" id="amountInput" placeholder="outro valor" min="10" max="5000" inputmode="numeric"
+                  oninput="onAmountInput(this)">
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-label">Pagar com</div>
+            <div class="crypto-list" id="cryptoList"></div>
+            <p class="bch-hint">💚 Bitcoin Cash — método recomendado</p>
+          </div>
+
+          <button type="button" class="btn btn-primary" id="nextBtn" onclick="goToPayment()" disabled>
+            Continuar →
+          </button>
+          <p class="form-disclaimer">
+            AirCrypto é um revendedor independente. Não somos afiliados nem endossados por Vodacom, Movitel ou Tmcel.
+          </p>
+        </div>
+
+        <!-- SCREEN 2 -->
+        <div class="screen" id="screen2">
+          <div class="card">
+            <div class="card-label">Resumo</div>
+            <div class="summary-row"><span class="label">Serviço</span><span class="value" id="s-service">—</span></div>
+            <div class="summary-row"><span class="label">Operadora</span><span class="value" id="s-op">—</span></div>
+            <div class="summary-row"><span class="label">Número</span><span class="value" id="s-phone">—</span></div>
+            <div class="summary-row"><span class="label">Valor</span><span class="value highlight" id="s-amount">—</span></div>
+            <div class="summary-row"><span class="label">Total a pagar</span><span class="value" id="s-total">—</span></div>
+            <div class="summary-row"><span class="label">Cripto</span><span class="value crypto" id="s-crypto">—</span></div>
+          </div>
+          <div class="card">
+            <div class="card-label">Enviar pagamento</div>
+            <div class="payment-box">
+              <div class="qr-wrap" id="qrContainer"><div class="qr-placeholder">A gerar QR…</div></div>
+              <div class="crypto-amount" id="payAmount">—</div>
+              <div class="crypto-sub" id="payCoin">Bitcoin Cash (BCH)</div>
+              <div class="address-box" id="payAddress" onclick="copyAddress()" title="Toque para copiar">—</div>
+              <div class="address-hint">Toque para copiar o endereço</div>
+            </div>
+            <div class="polling-row" id="pollingRow">
+              <div class="spinner"></div>
+              <span>A aguardar pagamento na blockchain…</span>
+            </div>
+            <div class="timer-row">⏳ Expira em <span class="timer-value" id="timerDisplay">—</span></div>
+          </div>
+          <button type="button" class="btn btn-ghost" id="simBtn" style="display:none" onclick="simulatePayment()">⚙️ Simular pagamento (dev)</button>
+          <button type="button" class="btn btn-ghost" onclick="goBack()">← Voltar</button>
+        </div>
+
+        <!-- SCREEN 3 -->
+        <div class="screen" id="screen3">
+          <div class="card status-card">
+            <div class="status-icon" id="statusIcon">✅</div>
+            <div class="status-title" id="statusTitle">Serviço entregue</div>
+            <div class="status-sub" id="statusSub">—</div>
+            <div class="receipt">
+              <div class="summary-row"><span class="label">Serviço</span><span class="value" id="r-service">—</span></div>
+              <div class="summary-row"><span class="label">Número</span><span class="value" id="r-phone">—</span></div>
+              <div class="summary-row"><span class="label">Valor</span><span class="value highlight" id="r-amount">—</span></div>
+              <div class="summary-row"><span class="label">Pago com</span><span class="value crypto" id="r-crypto">—</span></div>
+              <div class="summary-row">
+                <span class="label">Referência</span>
+                <span class="value ref" id="r-ref" onclick="copyRef()">—</span>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-success" onclick="resetAll()">+ Novo pedido</button>
+          <p class="form-disclaimer">Guarde a referência. Não é necessário criar conta.</p>
         </div>
       </div>
+    </div>
+  </section>
 
-      <div class="card">
-        <div class="card-label">Pagar com</div>
-        <div class="crypto-list" id="cryptoList">
-          <!-- filled by JS from backend config; BCH first & emphasized -->
+  <!-- ─── PAYMENTS ─── -->
+  <section class="section" id="pagamentos">
+    <div class="section-inner">
+      <h2 class="section-title">Pague como preferir</h2>
+      <p class="section-lead">Crypto no dia a dia — simples como qualquer pagamento digital.</p>
+      <div class="pay-grid">
+        <div class="pay-card pay-bch">
+          <div class="pay-icon">💚</div>
+          <h3>Bitcoin Cash</h3>
+          <p>Método recomendado. Rápido e com taxas baixas.</p>
+          <span class="pay-tag">Recomendado</span>
         </div>
-        <p class="bch-hint">🟢 Bitcoin Cash é o método recomendado</p>
+        <div class="pay-card">
+          <div class="pay-icon">💵</div>
+          <h3>USDT</h3>
+          <p>Stablecoin para quem prefere valor estável.</p>
+        </div>
+        <div class="pay-card">
+          <div class="pay-icon">🟠</div>
+          <h3>Bitcoin</h3>
+          <p>A criptomoeda original, também aceite.</p>
+        </div>
+        <div class="pay-card">
+          <div class="pay-icon">🔷</div>
+          <h3>ETH &amp; LTC</h3>
+          <p>Mais opções quando precisar de flexibilidade.</p>
+        </div>
       </div>
+    </div>
+  </section>
 
-      <button type="button" class="btn btn-primary" id="nextBtn" onclick="goToPayment()" disabled>
-        Continuar →
-      </button>
+  <!-- ─── WHY ─── -->
+  <section class="section section-alt" id="porque">
+    <div class="section-inner">
+      <h2 class="section-title">Porquê AirCrypto?</h2>
+      <div class="why-grid">
+        <div class="why-card">
+          <h3>⚡ Rápido</h3>
+          <p>Escolha, pague e receba o carregamento sem filas nem papelada.</p>
+        </div>
+        <div class="why-card">
+          <h3>✨ Simples</h3>
+          <p>Sem criar conta. Só o número, o valor e o pagamento.</p>
+        </div>
+        <div class="why-card">
+          <h3>💚 Crypto-friendly</h3>
+          <p>Bitcoin Cash em primeiro lugar — útil no dia a dia, não só para traders.</p>
+        </div>
+        <div class="why-card">
+          <h3>🇲🇿 Para Moçambique</h3>
+          <p>Operadoras locais, números +258 e uma experiência pensada para cá.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-      <p class="disclaimer">
-        AirCrypto é um revendedor independente de serviços digitais.
-        Nomes e marcas pertencem aos respectivos proprietários.
-        AirCrypto não é afiliado nem endossado por Vodacom, Movitel, Tmcel, GOtv, DStv ou ZAP.
+  <!-- ─── TRUST ─── -->
+  <section class="section" id="confianca">
+    <div class="section-inner">
+      <h2 class="section-title">Transparente e directo</h2>
+      <ul class="trust-list">
+        <li>Entrega digital após confirmação do pagamento</li>
+        <li>Preço calculado no servidor — sem surpresas no checkout</li>
+        <li>Pagamentos via processador crypto estabelecido (NOWPayments)</li>
+        <li>Referência de transacção para cada pedido</li>
+        <li>Sem registo obrigatório para comprar</li>
+      </ul>
+      <p class="trust-note">
+        Não inventamos números de clientes nem selos que não temos.
+        Construímos confiança com um fluxo claro e entrega real.
       </p>
     </div>
+  </section>
 
-    <!-- ═══════════ SCREEN 2: PAYMENT ═══════════ -->
-    <div class="screen" id="screen2">
-      <div class="card">
-        <div class="card-label">Resumo</div>
-        <div class="summary-row"><span class="label">Serviço</span><span class="value" id="s-service">—</span></div>
-        <div class="summary-row"><span class="label">Operadora</span><span class="value" id="s-op">—</span></div>
-        <div class="summary-row"><span class="label">Número</span><span class="value" id="s-phone">—</span></div>
-        <div class="summary-row"><span class="label">Valor</span><span class="value highlight" id="s-amount">—</span></div>
-        <div class="summary-row"><span class="label">Total a pagar</span><span class="value" id="s-total">—</span></div>
-        <div class="summary-row"><span class="label">Cripto</span><span class="value crypto" id="s-crypto">—</span></div>
-      </div>
-
-      <div class="card">
-        <div class="card-label">Enviar pagamento</div>
-        <div class="payment-box">
-          <div class="qr-wrap" id="qrContainer">
-            <div class="qr-placeholder">A gerar QR…</div>
-          </div>
-          <div class="crypto-amount" id="payAmount">—</div>
-          <div class="crypto-sub" id="payCoin">Bitcoin Cash (BCH)</div>
-          <div class="address-box" id="payAddress" onclick="copyAddress()" title="Toque para copiar">
-            —
-          </div>
-          <div class="address-hint">Toque para copiar o endereço</div>
-        </div>
-
-        <div class="polling-row" id="pollingRow">
-          <div class="spinner"></div>
-          <span>A aguardar pagamento na blockchain…</span>
-        </div>
-        <div class="timer-row">
-          ⏳ Expira em <span class="timer-value" id="timerDisplay">—</span>
-        </div>
-      </div>
-
-      <button type="button" class="btn btn-ghost" id="simBtn" style="display:none" onclick="simulatePayment()">
-        ⚙️ Simular pagamento (dev)
-      </button>
-      <button type="button" class="btn btn-ghost" onclick="goBack()">← Voltar</button>
+  <!-- ─── FINAL CTA ─── -->
+  <section class="section cta-final">
+    <div class="section-inner cta-final-inner">
+      <h2>Pronto para carregar?</h2>
+      <p>Vodacom, Movitel ou Tmcel — em poucos minutos.</p>
+      <a href="#comprar" class="btn btn-primary btn-lg">Comprar carregamento</a>
     </div>
+  </section>
 
-    <!-- ═══════════ SCREEN 3: SUCCESS ═══════════ -->
-    <div class="screen" id="screen3">
-      <div class="card status-card">
-        <div class="status-icon" id="statusIcon">✅</div>
-        <div class="status-title" id="statusTitle">Serviço entregue</div>
-        <div class="status-sub" id="statusSub">—</div>
-
-        <div class="receipt">
-          <div class="summary-row"><span class="label">Serviço</span><span class="value" id="r-service">—</span></div>
-          <div class="summary-row"><span class="label">Número</span><span class="value" id="r-phone">—</span></div>
-          <div class="summary-row"><span class="label">Valor</span><span class="value highlight" id="r-amount">—</span></div>
-          <div class="summary-row"><span class="label">Pago com</span><span class="value crypto" id="r-crypto">—</span></div>
-          <div class="summary-row">
-            <span class="label">Referência</span>
-            <span class="value ref" id="r-ref" onclick="copyRef()">—</span>
-          </div>
-        </div>
+  <!-- ─── FOOTER ─── -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="nav-brand">Air<span>Crypto</span></div>
+        <p>Marketplace digital com Bitcoin Cash em Moçambique.</p>
       </div>
-
-      <button type="button" class="btn btn-success" onclick="resetAll()">+ Novo pedido</button>
-      <p class="disclaimer">Guarde a referência. Não é necessário criar conta.</p>
+      <div class="footer-links">
+        <a href="#comprar">Comprar</a>
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#pagamentos">Pagamentos</a>
+        <a href="/admin.html">Admin</a>
+      </div>
+      <p class="footer-legal">
+        AirCrypto é um revendedor independente de serviços digitais.
+        Nomes e marcas das operadoras pertencem aos respectivos proprietários.
+        AirCrypto não é afiliado nem endossado por Vodacom, Movitel, Tmcel, GOtv, DStv ou ZAP.
+      </p>
+      <p class="footer-copy">© AirCrypto · Moçambique · 💚 BCH</p>
     </div>
-  </div>
+  </footer>
 
   <div class="toast" id="toast">Copiado!</div>
-
   <script src="/js/app.js"></script>
 </body>
 </html>
