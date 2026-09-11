@@ -37,6 +37,7 @@ async function boot() {
 
 function renderCryptos() {
   const list = document.getElementById('cryptoList');
+  if (!list) return;
   const coins = state.config?.enabledCryptos || ['BCH'];
   list.innerHTML = coins
     .map((c, i) => {
@@ -111,7 +112,7 @@ function setStep(n) {
     if (i < n) dot.classList.add('done');
     if (i === n) dot.classList.add('active');
   }
-  const labels = ['O que quer?', 'Pagamento', 'Recibo'];
+  const labels = ['Selecionar serviço', 'Pagamento', 'Recibo'];
   document.getElementById('stepLabel').textContent = labels[n - 1] || '';
   document.querySelectorAll('.screen').forEach((s) => s.classList.remove('active'));
   document.getElementById(`screen${n}`).classList.add('active');
